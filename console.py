@@ -2,11 +2,15 @@
 """
 This module contains the entry point of the command interpreter.
 """
-
 import cmd
 from models import storage
 from models.base_model import BaseModel
-
+from models.user import User
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.amenity import Amenity
+import models
 
 class HBNBCommand(cmd.Cmd):
     """
@@ -53,10 +57,10 @@ class HBNBCommand(cmd.Cmd):
         """
         if not arg:
             print("** class name missing **")
-        elif arg not in storage.classes:
+        elif arg not in globals():
             print("** class doesn't exist **")
         else:
-            new_instance = storage.classes[arg]()
+            new_instance = globals()[arg]()
             new_instance.save()
             print(new_instance.id)
 
@@ -68,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if not args:
             print("** class name missing **")
-        elif args[0] not in storage.classes:
+        elif args[0] not in globals():
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
