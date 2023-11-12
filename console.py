@@ -126,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """
-        Updates an instance based on clae and id with a new attribute value.
+        Updates an instance based on class and id with a new attribute value.
         Usage: update <class name> <id> <attribute name> "<attribute value>"
         """
         args = arg.split()
