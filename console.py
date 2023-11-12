@@ -3,6 +3,7 @@
 This module contains the entry point of the command interpreter.
 """
 import cmd
+import sys
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
