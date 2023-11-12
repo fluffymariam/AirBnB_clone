@@ -3,7 +3,7 @@
 """This module implements the FileStorage class"""
 
 import json
-from datetime import datetime
+import models
 
 
 class FileStorage():
@@ -32,30 +32,18 @@ class FileStorage():
             json.dump(json_object, f)
 
     def reload(self):
-        """Deserializes objects from a JSON file
-        and loads them into the dictionary"""
+        """Deserialize the JSON file to __objects"""
         try:
-            with open(FileStorage.__file_path, 'r') as f:
-                dict_obj = json.load(f)
-
-                for key, value in dict_obj.items():
-                    class_name = value["__class__"]
-                    if class_name in globals():
-                        obj_class = globals()[class_name]
-                        print(obj_class)
-                        del value["__class__"]
-                        obj = obj_class(**value)
-                        FileStorage.__objects[key] = obj
-                    else:
-                        from models.base_model import BaseModel
-                        from models.city import City
-                        from models.user import User
-                        from models.place import Place
-                        from models.review import Review
-                        from models.state import State
-                        from models.amenity import Amenity
-
-                        obj = eval(key.split(".")[0])(**value)
-                        FileStorage.__objects[key] = obj
+            with open(FileStorage.__file_path, "r") as file:
+                info = json.load(file)
+                FileStorage.__objects = {}
+                for k, v in info.items():
+                    class_name = v.get('__class__')
+                    if class_name:
+                        model_class = getattr(models, class_name, None)
+                        if model_class:
+                            obj = model_class(**v)
+                            FileStorage.__objects[k] = obj
         except FileNotFoundError:
             return
+
