@@ -54,6 +54,16 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         '''Pass empty line or on enter'''
         pass
+    def preloop(self):
+        """Prints if isatty is false"""
+        if not sys.__stdin__.isatty():
+            print('(hbnb)')
+
+    def postcmd(self, stop, line):
+        """Prints if isatty is false"""
+        if not sys.__stdin__.isatty():
+            print('(hbnb) ', end='')
+        return stop
 
     def do_create(self, arg):
         """
