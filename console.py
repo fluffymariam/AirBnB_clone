@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
     This class defines the command interpreter for the program.
     """
 
-    prompt = "(hbnb) "
+    prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     def do_quit(self, arg):
         """
