@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """class Place that inherits from BaseModel"""
-from Base import BaseModel
+from models.base_model import BaseModel
 
 class Place(BaseModel):
     """Place Class"""
