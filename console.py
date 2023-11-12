@@ -51,6 +51,10 @@ class HBNBCommand(cmd.Cmd):
         """
         print("Exit the program on EOF (Ctrl-D)")
 
+    def emptyline(self):
+        '''Pass empty line or on enter'''
+        pass
+
     def do_create(self, arg):
         """
         Create a new instance of BaseModel, save it, and print its id.
@@ -146,6 +150,14 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
+    def counter(self, arg):
+        ''' count how many obj we have'''
+        count = 0
+        for value in storage.all():
+            class_name = value.split(".")[0]
+            if class_name == arg:
+                count += 1
+        return count
 
     def default(self, arg):
         '''
@@ -158,19 +170,19 @@ class HBNBCommand(cmd.Cmd):
             if (method_name == "count"):
                 print(self.counter(class_name))
             else:
-                fun = f"do_{method_name}"
+                fun = "do_{}".format(method_name)
                 method_name = getattr(self, fun, None)
-                if len(args) == 0:
-                    method_name(class_name)
+                if method_name is not None:
+                    if len(args) == 0:
+                        method_name(class_name)
                 else:
                     args = args.replace('"', "")
                     args = args.replace(" ", "")
                     args = args.replace(",", " ")
-                    args = f"{class_name} {args}"
+                    args = "{} {}".format(class_name, args)
                     method_name(args)
         except Exception:
             return
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
