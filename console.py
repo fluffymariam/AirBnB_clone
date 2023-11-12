@@ -109,20 +109,17 @@ class HBNBCommand(cmd.Cmd):
         Prints string rep ll instances or instances of a specific class.
         Usage: all [class name]
         """
-        args = arg.split()
-        obj_list = []
-        if not arg:
-            for obj in storage.all().values():
-                obj_list.append(str(obj))
-            print(obj_list)
-            return
-        elif args[0] not in storage.classes:
-            print("** class doesn't exist **")
-            return
-        for obj in storage.all().values():
-            if obj.__class__.__name__ == args[0]:
-                obj_list.append(str(obj))
-        print(obj_list)
+        # all User
+        parts = arg.split()
+        if len(parts) < 1:
+            print(storage.all())
+        else:
+            if parts[0] not in globals():
+                print("** class doesn't exist **")
+            else:
+                for key in storage.all():
+                    if parts[0] == key.split('.')[0]:
+                        print(storage.all()[key])
 
     def do_update(self, arg):
         """
@@ -148,6 +145,31 @@ class HBNBCommand(cmd.Cmd):
                 obj.save()
             else:
                 print("** no instance found **")
+
+
+    def default(self, arg):
+        '''
+        handle daynamic commands
+        using : <class name>.<method name>(<args>)
+        '''
+        try:
+            names, args = arg.strip(')').split('(')
+            class_name, method_name = names.split('.')
+            if (method_name == "count"):
+                print(self.counter(class_name))
+            else:
+                fun = f"do_{method_name}"
+                method_name = getattr(self, fun, None)
+                if len(args) == 0:
+                    method_name(class_name)
+                else:
+                    args = args.replace('"', "")
+                    args = args.replace(" ", "")
+                    args = args.replace(",", " ")
+                    args = f"{class_name} {args}"
+                    method_name(args)
+        except Exception:
+            return
 
 
 if __name__ == '__main__':
