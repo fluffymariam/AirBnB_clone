@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """Defines the FileStorage class"""
 import json
-from Base import BaseModel
+from models.base_model import BaseModel
 
 class FileStorage:
     """Class that stores objects in JSON strings"""
     __file_path = "file.json"
     __objects = {}
-
+    classes = {}
     
 
     def all(self):
