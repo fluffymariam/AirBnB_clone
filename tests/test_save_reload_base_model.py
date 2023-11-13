@@ -4,6 +4,7 @@ from models import storage
 from models.base_model import BaseModel
 import os
 
+
 class TestSaveReloadBaseModel(unittest.TestCase):
     def setUp(self):
         self.file_path = "file.json"
@@ -31,6 +32,7 @@ class TestSaveReloadBaseModel(unittest.TestCase):
 
         all_objs_after = storage.all()
         self.assertIn(my_model, all_objs_after.values())
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -3,6 +3,7 @@ import unittest
 from models.base_model import BaseModel
 from datetime import datetime
 
+
 class TestBaseModelDict(unittest.TestCase):
     def test_init_method(self):
         my_model = BaseModel()
@@ -39,6 +40,7 @@ class TestBaseModelDict(unittest.TestCase):
 
         # Check if the instances are not the same
         self.assertFalse(my_model is my_new_model)
+
 
 if __name__ == '__main__':
     unittest.main()
